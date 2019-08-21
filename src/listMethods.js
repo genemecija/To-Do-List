@@ -1,5 +1,6 @@
 import generateGuid from './guid';
 
+
 let allLists = []
 
 class List {
@@ -8,6 +9,10 @@ class List {
         this.taskList = []
         this.id = generateGuid()
         allLists.push(this)
+    }
+
+    static getAllLists() {
+        return allLists
     }
 
     static getTaskForTaskID(taskID) {
