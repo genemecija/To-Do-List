@@ -1,6 +1,8 @@
 import List from './listMethods'
 import Task from './taskMethods'
 import displayList from './listGUI'
+import appShow from './layout'
+import showLists from './appNav'
 
 let allLists = []
 
@@ -17,8 +19,11 @@ list2.taskList[blah2.id] = blah2
 allLists.push(list1)
 allLists.push(list2)
 
-for (let i in allLists) {
-    let div = displayList(allLists[i])
+appShow()
+let appNav = document.querySelector('div.appNav')
+let appContent = document.querySelector('div.appContent')
+appNav.appendChild(showLists(allLists))
+
+let div = displayList(allLists[0])
     
-    document.querySelector('body').appendChild(div)
-}
+appContent.appendChild(div)

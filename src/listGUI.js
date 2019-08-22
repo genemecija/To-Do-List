@@ -2,6 +2,14 @@ import Task from './taskMethods'
 import List from './listMethods'
 
 const displayList = (list) => {
+    try {
+        console.log(list);
+        let currentListDisplayed = document.querySelector('.list')
+        currentListDisplayed.parentNode.removeChild(currentListDisplayed)
+    } catch (error) {
+        
+    }
+    
     let listDiv = document.createElement('div');
     listDiv.id = list.id;
     listDiv.classList.add('list')
@@ -39,7 +47,7 @@ const displayList = (list) => {
             let taskDiv = document.createElement('div');
             taskDiv.id = task.id
             taskDiv.classList.add('task')
-            taskDiv.innerText = task.id
+            taskDiv.innerText = task.description + ', ' + task.dueDate + ', ' + task.category
             tasksContainerDiv.appendChild(taskDiv)
         }
     })
@@ -53,7 +61,7 @@ const displayList = (list) => {
         let taskDiv = document.createElement('div');
         taskDiv.id = task.id
         taskDiv.classList.add('task')
-        taskDiv.innerText = task.id
+        taskDiv.innerText = task.description + ', ' + task.dueDate + ', ' + task.category
         tasksContainerDiv.appendChild(taskDiv)
     }
     
