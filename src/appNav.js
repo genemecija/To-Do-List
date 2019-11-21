@@ -1,32 +1,62 @@
-import displayList from './listGUI'
+import displayTasksForList from "./listMethods";
 
 // Shows available lists in a Lists section within the app nav section
-const showLists = (arrOfLists) => {
-    let listsDisplay = document.createElement('div')
-    listsDisplay.classList.add('listsDisplay')
+const showLists = () => {
+  try {
+    let listsDisplay = document.querySelector(".listsDisplay");
+    listsDisplay.parentNode.removeChild(listsDisplay);
+  } catch (error) {}
 
-    let listsDisplayHeader = document.createElement('div')
-    listsDisplayHeader.classList.add('listsDisplayHeader')
+  let listsDisplay = document.createElement("div");
+  listsDisplay.classList.add("listsDisplay");
 
-    let listsDisplayContents = document.createElement('div')
-    listsDisplayContents.classList.add('listsDisplayContents')
+  let listsDisplayHeader = document.createElement("div");
+  listsDisplayHeader.classList.add("listsDisplayHeader");
 
-    listsDisplayHeader.innerText = "Lists"
-    listsDisplay.appendChild(listsDisplayHeader)
-    listsDisplay.appendChild(listsDisplayContents)
+  let listsDisplayContents = document.createElement("div");
+  listsDisplayContents.classList.add("listsDisplayContents");
 
-    arrOfLists.forEach(list => {
-        let listDiv = document.createElement('div')
-        listDiv.id = list.id
-        listDiv.classList.add('nav_list')
-        listDiv.innerHTML = list.title
-        listDiv.addEventListener('click', () => {
-            let appContent = document.querySelector('.appContent')
-            appContent.appendChild(displayList(list))
-        })
-        listsDisplay.appendChild(listDiv)
+  listsDisplayHeader.innerText = "Projects";
+  listsDisplay.appendChild(listsDisplayHeader);
+  listsDisplay.appendChild(listsDisplayContents);
+
+  let appContent = document.querySelector(".appContent");
+
+  let allLists = JSON.parse(localStorage.getItem("allLists"));
+  allLists.forEach(list => {
+    let listDiv = document.createElement("div");
+    listDiv.id = list.id;
+    listDiv.classList.add("nav_list");
+    listDiv.innerHTML = list.title;
+    listDiv.addEventListener("click", () => {
+      let freshLists = JSON.parse(localStorage.getItem("allLists"));
+      freshLists.forEach(l => {
+        if ((l.id = listDiv.id)) {
+          appContent.appendChild(displayTasksForList(l));
+        }
+      });
     });
-    return listsDisplay
-}
+    listsDisplayContents.appendChild(listDiv);
+  });
 
-export default showLists
+  let newProjectDiv = document.createElement("div");
+  newProjectDiv.classList.add("newProjectDiv");
+
+  let newProject = document.createElement("input");
+  newProject.classList.add("newProject");
+  newProject.setAttribute("type", "button");
+  newProject.setAttribute("value", "New Project...");
+  newProjectDiv.appendChild(newProject);
+
+  newProject.addEventListener("click", () => {
+    appContent.appendChild(displayTasksForList("newList"));
+    let appNav = document.querySelector("div.appNav");
+    appNav.appendChild(showLists());
+  });
+
+  listsDisplay.appendChild(newProjectDiv);
+
+  return listsDisplay;
+};
+
+export default showLists;
